@@ -65,10 +65,25 @@ def get_current_user():
     if hasattr(g, "current_user") and g.current_user:
         return g.current_user
     user_data = session.get("user")
-    if user_data:
-        g.current_user = user_data
-        return user_data
-    return None
+    if not isinstance(user_data, dict):
+        return None
+
+    from core.database import get_db
+
+    user = get_db().execute(
+        "SELECT id, username, role FROM users WHERE id = ?",
+        (user_data.get("id"),)
+    ).fetchone()
+    if not user or user["username"] != user_data.get("username"):
+        session.pop("user", None)
+        return None
+
+    g.current_user = {
+        "id": user["id"],
+        "username": user["username"],
+        "role": user["role"]
+    }
+    return g.current_user
 
 
 def get_current_username() -> str:

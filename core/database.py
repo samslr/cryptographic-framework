@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from flask import g
 from core.crypto_vault import compute_fingerprint, decrypt_secret
-from core.security import hash_password, ROLE_ADMIN, ROLE_OPERATOR, ROLE_VIEWER
+from core.security import hash_password, verify_password, ROLE_ADMIN
 
 INSTANCE_DIR = Path(__file__).resolve().parent.parent / "instance"
 INSTANCE_DIR.mkdir(exist_ok=True)
@@ -121,25 +121,43 @@ def init_and_migrate_db():
                     pass
                 conn.execute("UPDATE keys SET fingerprint = ? WHERE id = ?", (fp, k["id"]))
 
-    # Seed initial default accounts if none exist
-    seed_default_users(conn)
+    revoke_legacy_default_users(conn)
+    seed_configured_admin(conn)
     conn.close()
 
 
-def seed_default_users(conn: sqlite3.Connection):
-    """Seed initial administrative and operational accounts if empty."""
-    cursor = conn.cursor()
-    count = cursor.execute("SELECT COUNT(*) FROM users").fetchone()[0]
-    if count == 0:
-        now = utc_now_iso()
-        default_accounts = [
-            ("admin", "Admin@SecVault2026!", ROLE_ADMIN),
-            ("operator", "Operator@SecVault2026!", ROLE_OPERATOR),
-            ("auditor", "Auditor@SecVault2026!", ROLE_VIEWER)
-        ]
-        for uname, pwd, role in default_accounts:
-            cursor.execute(
-                "INSERT INTO users(username, password_hash, role, created_at) VALUES (?, ?, ?, ?)",
-                (uname, hash_password(pwd), role, now)
-            )
-        conn.commit()
+def revoke_legacy_default_users(conn: sqlite3.Connection):
+    """Remove built-in demo accounts left behind by older versions."""
+    legacy_accounts = (
+        ("admin", "Admin@SecVault2026!"),
+        ("operator", "Operator@SecVault2026!"),
+        ("auditor", "Auditor@SecVault2026!"),
+    )
+    for username, password in legacy_accounts:
+        row = conn.execute(
+            "SELECT id, password_hash FROM users WHERE username = ?",
+            (username,)
+        ).fetchone()
+        if row and verify_password(password, row["password_hash"]):
+            conn.execute("DELETE FROM users WHERE id = ?", (row["id"],))
+    conn.commit()
+
+
+def seed_configured_admin(conn: sqlite3.Connection):
+    """Create an initial administrator only when explicitly configured."""
+    username = os.environ.get("APP_ADMIN_USERNAME", "").strip()
+    password = os.environ.get("APP_ADMIN_PASSWORD", "")
+    if not username and not password:
+        return
+    if not username or not password:
+        raise RuntimeError("Set both APP_ADMIN_USERNAME and APP_ADMIN_PASSWORD to provision an administrator.")
+    if len(password) < 12:
+        raise RuntimeError("APP_ADMIN_PASSWORD must contain at least 12 characters.")
+    if conn.execute("SELECT 1 FROM users WHERE username = ?", (username,)).fetchone():
+        return
+
+    conn.execute(
+        "INSERT INTO users(username, password_hash, role, created_at) VALUES (?, ?, ?, ?)",
+        (username, hash_password(password), ROLE_ADMIN, utc_now_iso())
+    )
+    conn.commit()

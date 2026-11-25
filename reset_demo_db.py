@@ -15,7 +15,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from core.crypto_vault import compute_fingerprint, encrypt_secret
-from core.database import DB_PATH, INSTANCE_DIR, seed_default_users
+from core.database import DB_PATH, INSTANCE_DIR, seed_configured_admin
 
 
 def reset_demo_database():
@@ -85,12 +85,8 @@ def reset_demo_database():
             )
         """)
 
-        # Seed Users
-        seed_default_users(conn)
-        print("[+] Seeded Default Accounts:")
-        print("    - admin    (Role: Administrator, Pwd: Admin@SecVault2026!)")
-        print("    - operator (Role: Operator,      Pwd: Operator@SecVault2026!)")
-        print("    - auditor  (Role: Viewer,        Pwd: Auditor@SecVault2026!)")
+        seed_configured_admin(conn)
+        print("[+] Created configured Administrator account, if credentials were provided.")
 
         now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
 

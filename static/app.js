@@ -130,11 +130,6 @@ function updateUserBadge(user) {
 $("btn-open-login")?.addEventListener("click", () => openModal("modal-login"));
 $("btn-quick-role")?.addEventListener("click", () => openModal("modal-login"));
 
-function fillLogin(u, p) {
-  $("login-username").value = u;
-  $("login-password").value = p;
-}
-
 $("btn-do-login")?.addEventListener("click", async () => {
   try {
     const username = $("login-username").value.trim();

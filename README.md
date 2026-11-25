@@ -173,13 +173,9 @@ Open your browser to: **`http://127.0.0.1:5000`**
 
 ## 6. Role-Based Access Control (RBAC)
 
-CyberVault implements server-side role-based access control with three pre-seeded accounts:
+CyberVault enforces server-side role-based access control. It does not create default accounts or passwords. To provision the initial Administrator, set `APP_ADMIN_USERNAME` and a unique `APP_ADMIN_PASSWORD` (at least 12 characters) in the environment before first startup. The account is created only if that username does not already exist. Never configure a shared Administrator account for a public demonstration; without provisioned accounts, visitors remain unauthenticated Viewers.
 
-| Username | Default Password | Role | Permissions |
-|---|---|---|---|
-| **`admin`** | `Admin@SecVault2026!` | **Administrator** | Full system access: generate keys, rotate keys, delete keys, encrypt, decrypt, sign, verify, hash, run benchmarks, export audit logs. |
-| **`operator`** | `Operator@SecVault2026!` | **Operator** | Operational access: generate keys, rotate keys, encrypt text/files, decrypt text/files, sign messages, verify signatures, hash, run benchmarks, export audit logs. *(Cannot permanently delete keys).* |
-| **`auditor`** | `Auditor@SecVault2026!` | **Viewer** | Read-only compliance access: view key inventory, export public keys, verify hashes, verify signatures, view audit logs, view benchmarks. *(Cannot encrypt, decrypt, sign, rotate, or delete keys).* |
+The Administrator role has full system access. Operator accounts can perform cryptographic operations but cannot permanently delete keys. Viewer accounts have read-only access. Accounts must be provisioned by the system administrator.
 
 ### Role Permissions Matrix
 

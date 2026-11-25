@@ -34,6 +34,7 @@ def test_auth_me_authenticated(client):
         "username": "operator",
         "password": "Operator@SecVault2026!"
     })
+    client.get("/")
     res = client.get("/api/auth/me")
     assert res.status_code == 200
     data = res.get_json()
@@ -82,4 +83,17 @@ def test_rbac_role_enforcement(client, admin_client, operator_client, auditor_cl
     # 5. Admin CAN delete key
     res_del_admin = admin_client.delete(f"/api/keys/{key_id}")
     assert res_del_admin.status_code == 200
+
+
+def test_homepage_does_not_authenticate_or_authorize_anonymous_visitors(client):
+    assert client.get("/").status_code == 200
+
+    identity = client.get("/api/auth/me").get_json()
+    assert identity["authenticated"] is False
+    assert identity["user"]["username"] == "guest"
+    assert identity["user"]["role"] == ROLE_VIEWER
+
+    result = client.post("/api/keys/aes", json={"name": "Unauthenticated Key"})
+    assert result.status_code == 401
+    assert result.get_json()["code"] == "UNAUTHORIZED"
 

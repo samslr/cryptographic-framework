@@ -136,9 +136,6 @@ def check_rate_limits():
 @app.get("/")
 def index():
     """Serve the single-page application dashboard."""
-    # Seed default session as Administrator if not logged in for instant demonstration
-    if "user" not in session:
-        session["user"] = {"id": 1, "username": "admin", "role": ROLE_ADMIN}
     csrf_token = generate_csrf_token()
     return render_template("index.html", csrf_token=csrf_token)
 
