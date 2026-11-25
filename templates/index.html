@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CyberVault — Modular Multi-Algorithm Cryptographic Platform</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="brand">
+        <div class="brand-icon">◈</div>
+        <div class="brand-text">
+          <h2>CYBERVAULT</h2>
+          <small>SOC CRYPTO ENGINE</small>
+        </div>
+      </a>
+      <button class="sidebar-toggle" id="toggle-sidebar" title="Toggle Navigation">☰</button>
+    </div>
+
+    <div class="nav-section-label">OPERATIONS CONSOLE</div>
+    <nav class="nav-menu">
+      <button class="nav-item active" data-tab="overview">
+        <div class="nav-icon">▦</div>
+        <span>Overview Dashboard</span>
+      </button>
+      <button class="nav-item" data-tab="symmetric">
+        <div class="nav-icon">◈</div>
+        <span>01 · Symmetric (AES)</span>
+      </button>
+      <button class="nav-item" data-tab="asymmetric">
+        <div class="nav-icon">⌘</div>
+        <span>02 · Asymmetric & Sign</span>
+      </button>
+      <button class="nav-item" data-tab="hashing">
+        <div class="nav-icon">#</div>
+        <span>03 · Hashing & Avalanche</span>
+      </button>
+      <button class="nav-item" data-tab="keys">
+        <div class="nav-icon">⚿</div>
+        <span>04 · Key Vault & Storage</span>
+      </button>
+      <button class="nav-item" data-tab="analytics">
+        <div class="nav-icon">⚡</div>
+        <span>05 · Crypto Benchmarks</span>
+      </button>
+      <button class="nav-item" data-tab="architecture">
+        <div class="nav-icon">☊</div>
+        <span>06 · System Architecture</span>
+      </button>
+      <button class="nav-item" data-tab="audit">
+        <div class="nav-icon">≡</div>
+        <span>07 · Audit Trail & Logs</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile-widget">
+        <div class="user-info-brief">
+          <div class="avatar" id="user-avatar">A</div>
+          <div class="user-meta">
+            <strong id="user-name-display">admin</strong>
+            <small id="user-role-display">Administrator</small>
+          </div>
+        </div>
+        <button class="btn-header btn-sm" id="btn-open-login" title="Switch User Role">⚙</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="page-breadcrumb">
+        <span>SECURITY OPERATIONS</span>
+        <span>/</span>
+        <strong id="page-title">Overview Dashboard</strong>
+      </div>
+      <div class="topbar-actions">
+        <div class="system-badge">
+          <span class="pulse-indicator"></span>
+          <span>CRYPTOGRAPHIC ENGINE ACTIVE · NIST RECOMMENDED ALGORITHMS</span>
+        </div>
+        <button class="btn-header" id="btn-quick-role">
+          <span id="role-pill-text">Role: Administrator</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="content-container">
+
+      <!-- ======================================================== -->
+      <!-- PANEL 00: OVERVIEW DASHBOARD -->
+      <!-- ======================================================== -->
+      <section class="panel active" id="overview">
+        <div class="hero-banner">
+          <div class="eyebrow">MODULAR MULTI-ALGORITHM CRYPTOGRAPHIC PLATFORM</div>
+          <h2>Cryptographic Security Framework & <em>Key Lifecycle Management</em></h2>
+          <p>Real-time telemetry, authenticated cryptographic operations, tamper-detection analytics, and role-based key management.</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card cyan">
+            <div class="stat-label"><span>TOTAL OPERATIONS</span><span>◈</span></div>
+            <div class="stat-value" id="stat-ops">0</div>
+            <div class="stat-sub">Recorded audit entries</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label"><span>SUCCESS RATE</span><span>✓</span></div>
+            <div class="stat-value" id="stat-rate">100%</div>
+            <div class="stat-sub">Integrity verified operations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label"><span>ACTIVE KEYS</span><span>⚿</span></div>
+            <div class="stat-value" id="stat-keys">0</div>
+            <div class="stat-sub" id="stat-retired-keys">0 retired keys</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label"><span>ENCRYPTIONS</span><span>🔒</span></div>
+            <div class="stat-value" id="stat-enc">0</div>
+            <div class="stat-sub" id="stat-dec">0 decryptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label"><span>SIGNATURE CHECKS</span><span>⌘</span></div>
+            <div class="stat-value" id="stat-signatures">0</div>
+            <div class="stat-sub">RSA-PSS signatures</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label"><span>INTEGRITY VERIFICATIONS</span><span>#</span></div>
+            <div class="stat-value" id="stat-checks">0</div>
+            <div class="stat-sub">Constant-time checks</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="chart-box">
+            <div class="card-title">
+              <span>Cryptographic Operations Distribution</span>
+              <small>Actual SQLite Audit Distribution</small>
+            </div>
+            <div class="chart-container" id="chart-distribution"></div>
+          </div>
+          <div class="chart-box">
+            <div class="card-title">
+              <span>Recent Activity Volume</span>
+              <small>Operation Frequency</small>
+            </div>
+            <div class="chart-container" id="chart-volume"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Recent Security Operations</span>
+            <button class="btn-secondary btn-sm" onclick="loadAudit(); loadStats();">Refresh Activity</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>TIME (UTC)</th>
+                  <th>OPERATION ID</th>
+                  <th>USER</th>
+                  <th>ACTION</th>
+                  <th>ALGORITHM</th>
+                  <th>STATUS</th>
+                  <th>LATENCY</th>
+                </tr>
+              </thead>
+              <tbody id="overview-audit-table">
+                <tr><td colspan="7">Loading recent operations...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 01: SYMMETRIC ENCRYPTION (AES-256-GCM) -->
+      <!-- ======================================================== -->
+      <section class="panel" id="symmetric">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 01 · SYMMETRIC CRYPTOGRAPHY</div>
+          <h1>AES-256-GCM Authenticated Encryption</h1>
+          <p>NIST SP 800-38D compliant Galois/Counter Mode providing high-throughput confidentiality and built-in 128-bit authentication tags to prevent ciphertext tampering.</p>
+        </div>
+
+        <div class="tab-pills">
+          <button class="tab-pill active" data-subtab="sym-text">Text Encryption & Decryption</button>
+          <button class="tab-pill" data-subtab="sym-file">File Container Encryption</button>
+        </div>
+
+        <div id="sym-text" class="subtab-content">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span>Encrypt Plaintext</span><small>AES-256-GCM</small></div>
+              <div class="form-group">
+                <label class="form-label">Active Symmetric Key</label>
+                <select id="aes-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Plaintext Input</label>
+                <textarea id="aes-plain" placeholder="Enter confidential message to encrypt..."></textarea>
+              </div>
+              <button class="btn-primary" id="aes-encrypt">Encrypt Plaintext</button>
+              <div class="telemetry-tag" id="aes-enc-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Encrypted JSON Payload (Nonce + Ciphertext + Tag)</label>
+                <textarea id="aes-output" class="mono" readonly placeholder="Encrypted package will appear here..."></textarea>
+              </div>
+              <button class="btn-secondary btn-sm" id="aes-copy">Copy JSON Payload</button>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span>Decrypt & Verify Authenticity</span><small>AES-256-GCM</small></div>
+              <div class="form-group">
+                <label class="form-label">Symmetric Key for Decryption</label>
+                <select id="aes-decrypt-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Encrypted JSON Payload</label>
+                <textarea id="aes-input" class="mono" placeholder="Paste the encrypted JSON payload here..."></textarea>
+              </div>
+              <button class="btn-primary" id="aes-decrypt">Decrypt & Authenticate</button>
+              <div class="telemetry-tag" id="aes-dec-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Recovered Authentic Plaintext</label>
+                <textarea id="aes-recovered" readonly placeholder="Decrypted plaintext will appear here..."></textarea>
+              </div>
+              <div id="aes-result-box" class="result-box"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sym-file" class="subtab-content" style="display:none;">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span>Encrypt File to .enc Container</span><small>Up to 20 MB</small></div>
+              <div class="form-group">
+                <label class="form-label">Select File</label>
+                <input type="file" id="file-enc-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Select AES Key</label>
+                <select id="file-enc-key"></select>
+              </div>
+              <button class="btn-primary" id="btn-file-encrypt">Encrypt & Download .enc</button>
+              <div class="telemetry-tag" id="file-enc-status" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span>Decrypt & Authenticate .enc File</span><small>GCM Tag Verified</small></div>
+              <div class="form-group">
+                <label class="form-label">Select .enc Container</label>
+                <input type="file" id="file-dec-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Select Matching AES Key</label>
+                <select id="file-dec-key"></select>
+              </div>
+              <button class="btn-primary" id="btn-file-decrypt">Decrypt & Recover File</button>
+              <div class="telemetry-tag" id="file-dec-status" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 02: ASYMMETRIC ENCRYPTION & DIGITAL SIGNATURES -->
+      <!-- ======================================================== -->
+      <section class="panel" id="asymmetric">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 02 · PUBLIC KEY CRYPTOGRAPHY</div>
+          <h1>Asymmetric Hybrid Encryption & RSA-PSS Signatures</h1>
+          <p>Combines RSA-2048 OAEP key encapsulation with AES-256-GCM content encryption for unlimited payload sizing, alongside RFC 8017 RSA-PSS digital signatures.</p>
+        </div>
+
+        <div class="tab-pills">
+          <button class="tab-pill active" data-subtab="asym-hybrid">RSA-OAEP Hybrid Encryption</button>
+          <button class="tab-pill" data-subtab="asym-sign">RSA-PSS Digital Signatures</button>
+        </div>
+
+        <div id="asym-hybrid" class="subtab-content">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span>Hybrid Encrypt (Public Key)</span><small>RSA-2048 OAEP + AES-GCM</small></div>
+              <div class="form-group">
+                <label class="form-label">Recipient's RSA Key Pair</label>
+                <select id="rsa-encrypt-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Plaintext Input</label>
+                <textarea id="rsa-plain" placeholder="Enter confidential message to encrypt with recipient's public key..."></textarea>
+              </div>
+              <button class="btn-primary" id="rsa-encrypt">Encrypt with RSA-OAEP</button>
+              <div class="telemetry-tag" id="rsa-enc-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Hybrid Encrypted Payload (JSON)</label>
+                <textarea id="rsa-output" class="mono" readonly placeholder="Wrapped key, nonce, and ciphertext..."></textarea>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span>Hybrid Decrypt (Private Key)</span><small>RSA-2048 OAEP + AES-GCM</small></div>
+              <div class="form-group">
+                <label class="form-label">RSA Key Pair for Decryption</label>
+                <select id="rsa-decrypt-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hybrid Encrypted Payload</label>
+                <textarea id="rsa-input" class="mono" placeholder="Paste wrapped key payload..."></textarea>
+              </div>
+              <button class="btn-primary" id="rsa-decrypt">Decrypt with Private Key</button>
+              <div class="telemetry-tag" id="rsa-dec-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Recovered Plaintext</label>
+                <textarea id="rsa-recovered" readonly placeholder="Decrypted text will appear here..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="asym-sign" class="subtab-content" style="display:none;">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span>Generate RSA-PSS Digital Signature</span><small>SHA-256 + Max Salt</small></div>
+              <div class="form-group">
+                <label class="form-label">Signing Key Pair (Private Key)</label>
+                <select id="sign-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Message to Digitally Sign</label>
+                <textarea id="sign-text" placeholder="Enter message to digitally sign..."></textarea>
+              </div>
+              <button class="btn-primary" id="sign-button">Generate Digital Signature</button>
+              <div class="telemetry-tag" id="sign-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Cryptographic Signature (Base64)</label>
+                <textarea id="signature-output" class="mono" readonly placeholder="Digital signature will appear here..."></textarea>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span>Verify Digital Signature</span><small>Public Key Verification</small></div>
+              <div class="form-group">
+                <label class="form-label">Verification Key Pair (Public Key)</label>
+                <select id="verify-key"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Original Message</label>
+                <textarea id="verify-text" placeholder="Enter original message to verify..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Digital Signature (Base64)</label>
+                <textarea id="verify-signature" class="mono" placeholder="Paste signature to verify..."></textarea>
+              </div>
+              <button class="btn-primary" id="verify-button">Verify Authenticity & Integrity</button>
+              <div class="telemetry-tag" id="verify-telemetry" style="display:none;"></div>
+              <div id="signature-result" class="result-box"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 03: HASHING & AVALANCHE EFFECT -->
+      <!-- ======================================================== -->
+      <section class="panel" id="hashing">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 03 · INTEGRITY & HASHING</div>
+          <h1>Cryptographic Digests & Strict Avalanche Lab</h1>
+          <p>FIPS 180-4 cryptographic hash algorithms (SHA-256 & SHA-512) for tamper detection, integrity verification, and educational avalanche effect bit analysis.</p>
+        </div>
+
+        <div class="tab-pills">
+          <button class="tab-pill active" data-subtab="hash-standard">Hash Generation & Verification</button>
+          <button class="tab-pill" data-subtab="hash-avalanche">Strict Avalanche Effect Lab</button>
+        </div>
+
+        <div id="hash-standard" class="subtab-content">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span>Compute Cryptographic Hash</span><small>SHA-256 / SHA-512</small></div>
+              <div class="form-group">
+                <label class="form-label">Hash Algorithm</label>
+                <select id="hash-alg"><option>SHA-256</option><option>SHA-512</option></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Input Text Payload</label>
+                <textarea id="hash-text" placeholder="Enter text to hash..."></textarea>
+              </div>
+              <button class="btn-primary" id="hash-generate">Generate Hash Digest</button>
+              <div class="telemetry-tag" id="hash-telemetry" style="display:none;"></div>
+              <div class="form-group" style="margin-top:14px;">
+                <label class="form-label">Hexadecimal Digest Output</label>
+                <textarea id="hash-output" class="mono" readonly></textarea>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span>Verify Data Integrity</span><small>Constant-Time Comparison</small></div>
+              <div class="form-group">
+                <label class="form-label">Hash Algorithm</label>
+                <select id="verify-hash-alg"><option>SHA-256</option><option>SHA-512</option></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Received Text</label>
+                <textarea id="verify-hash-text" placeholder="Enter text payload to verify..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expected Trusted Hash</label>
+                <textarea id="expected-hash" class="mono" placeholder="Paste expected hash digest..."></textarea>
+              </div>
+              <button class="btn-primary" id="hash-verify">Verify Integrity</button>
+              <div id="hash-result" class="result-box"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Streamed File Hash Calculator</span><small>Up to 20 MB</small></div>
+            <div class="grid-2" style="margin-bottom:0;">
+              <div>
+                <input type="file" id="hash-file">
+              </div>
+              <div style="display:flex; gap:10px;">
+                <select id="file-hash-alg"><option>SHA-256</option><option>SHA-512</option></select>
+                <button class="btn-primary" id="file-hash-button">Compute File Hash</button>
+              </div>
+            </div>
+            <div id="file-hash-result" class="result-box" style="margin-top:14px;"></div>
+          </div>
+        </div>
+
+        <div id="hash-avalanche" class="subtab-content" style="display:none;">
+          <div class="card">
+            <div class="card-title">
+              <span>Strict Avalanche Effect Analysis</span>
+              <small>Bitwise Hamming Distance</small>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
+              A cryptographic hash function satisfies the <strong>Strict Avalanche Criterion (SAC)</strong> if flipping a single input bit changes roughly 50% of the output digest bits completely unpredictably.
+            </p>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Original Input A</label>
+                <input id="aval-input-a" value="CyberSecurityCapstone2026">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Perturbed Input B (or click Flip 1 Bit)</label>
+                <div style="display:flex; gap:8px;">
+                  <input id="aval-input-b" value="CyberSecurityCapstone2027">
+                  <button class="btn-secondary btn-sm" id="btn-flip-bit" style="white-space:nowrap;">Flip 1 Bit</button>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; margin-bottom:14px;">
+              <select id="aval-alg" style="width:140px;"><option>SHA-256</option><option>SHA-512</option></select>
+              <button class="btn-primary" id="btn-run-avalanche">Execute Avalanche Analysis</button>
+            </div>
+
+            <div class="stat-grid" style="margin-bottom:14px;">
+              <div class="stat-card cyan">
+                <div class="stat-label">AVALANCHE PERCENTAGE</div>
+                <div class="stat-value" id="aval-percent">0.0%</div>
+                <div class="stat-sub">Expected target ≈ 50.0%</div>
+              </div>
+              <div class="stat-card green">
+                <div class="stat-label">CHANGED BITS</div>
+                <div class="stat-value" id="aval-changed">0</div>
+                <div class="stat-sub" id="aval-total-bits">out of 256 bits</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">AVALANCHE QUALITY</div>
+                <div class="stat-value" id="aval-quality" style="font-size:20px; margin-top:14px;">PENDING</div>
+                <div class="stat-sub">Strict Avalanche Metric</div>
+              </div>
+            </div>
+
+            <div class="avalanche-container">
+              <div class="form-label">First 128 Digest Bits Comparison (Cyan = Flipped Bit, Dark = Unchanged)</div>
+              <div class="bit-matrix" id="bit-matrix"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 04: KEY MANAGEMENT & STORAGE -->
+      <!-- ======================================================== -->
+      <section class="panel" id="keys">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 04 · KEY LIFECYCLE MANAGEMENT</div>
+          <h1>Cryptographic Key Inventory & Vault Storage</h1>
+          <p>Local Key Management Service (KMS). Private keys are protected using Fernet master envelope encryption before storage in SQLite.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span>Generate AES Key</span><small>256-bit Symmetric</small></div>
+            <div class="form-group">
+              <label class="form-label">Key Alias / Description</label>
+              <input id="aes-key-name" placeholder="e.g. Finance-Data-Key-2026">
+            </div>
+            <button class="btn-primary" id="create-aes-key">Generate AES-256 Key</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Generate RSA Key Pair</span><small>2048-bit Asymmetric</small></div>
+            <div class="form-group">
+              <label class="form-label">Key Pair Alias / Description</label>
+              <input id="rsa-key-name" placeholder="e.g. Identity-Signing-Pair-2026">
+            </div>
+            <button class="btn-primary" id="create-rsa-key">Generate RSA-2048 Pair</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Key Vault Inventory</span>
+            <button class="btn-secondary btn-sm" id="refresh-keys">Refresh Inventory</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>KEY ID</th>
+                  <th>NAME</th>
+                  <th>TYPE</th>
+                  <th>ALGORITHM</th>
+                  <th>SHA-256 FINGERPRINT</th>
+                  <th>STATUS</th>
+                  <th>USAGES</th>
+                  <th>CREATED (UTC)</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="keys-table">
+                <tr><td colspan="9">Loading cryptographic keys...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 05: CRYPTO BENCHMARKS & PERFORMANCE -->
+      <!-- ======================================================== -->
+      <section class="panel" id="analytics">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 05 · HARDWARE TELEMETRY</div>
+          <h1>Cryptographic Performance Analytics</h1>
+          <p>Real-time microsecond-level hardware benchmarks measuring CPU cryptographic instruction throughput and algorithmic latency across payload sizes.</p>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <button class="btn-primary" id="btn-run-benchmark">⚡ Run Hardware Benchmark</button>
+          <span class="telemetry-tag" id="benchmark-status" style="margin-left:12px;">Using cached baseline</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span>Symmetric Throughput (AES-256-GCM)</span>
+              <small>MB/sec vs Payload Size</small>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>PAYLOAD</th><th>ENCRYPT (MS)</th><th>THROUGHPUT (MB/S)</th><th>DECRYPT (MS)</th></tr>
+                </thead>
+                <tbody id="bench-aes-table">
+                  <tr><td colspan="4">Run benchmark to load measurements...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Hashing Throughput (SHA-256 vs SHA-512)</span>
+              <small>MB/sec Comparison</small>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>PAYLOAD</th><th>SHA-256 (MB/S)</th><th>SHA-512 (MB/S)</th></tr>
+                </thead>
+                <tbody id="bench-hash-table">
+                  <tr><td colspan="3">Run benchmark to load measurements...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span>RSA-2048 Operations Latency</span>
+              <small>Asymmetric Cost</small>
+            </div>
+            <div id="bench-rsa-summary" style="font-size:13px; line-height:1.8;">
+              <p>Key Generation: <strong id="rsa-keygen-time">-- ms</strong></p>
+              <p>Hybrid Encryption (16 KB): <strong id="rsa-enc-time">-- ms</strong></p>
+              <p>Hybrid Decryption (16 KB): <strong id="rsa-dec-time">-- ms</strong></p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>RSA-PSS Digital Signatures Throughput</span>
+              <small>Operations per Second</small>
+            </div>
+            <div id="bench-sig-summary" style="font-size:13px; line-height:1.8;">
+              <p>Sign Duration (1 KB): <strong id="sig-sign-time">-- ms</strong></p>
+              <p>Verify Duration (1 KB): <strong id="sig-ver-time">-- ms</strong></p>
+              <p>Signing Rate: <strong id="sig-rate">-- ops/sec</strong></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 06: SYSTEM ARCHITECTURE VISUALIZER -->
+      <!-- ======================================================== -->
+      <section class="panel" id="architecture">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 06 · SYSTEM DESIGN</div>
+          <h1>Interactive System Architecture & Security Flow</h1>
+          <p>Inspect the complete end-to-end security pipeline. Click any component below to view its security protocols, NIST standards, and implementation parameters.</p>
+        </div>
+
+        <div class="pipeline-flow">
+          <div class="pipeline-node active" data-node="ui">
+            <div class="node-icon">💻</div>
+            <h4>User Interface</h4>
+            <small>Client Browser</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="api">
+            <div class="node-icon">⚡</div>
+            <h4>Flask REST API</h4>
+            <small>HTTP Controllers</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="rbac">
+            <div class="node-icon">🛡️</div>
+            <h4>Access Control</h4>
+            <small>Scrypt + RBAC</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="crypto">
+            <div class="node-icon">🔒</div>
+            <h4>Crypto Engine</h4>
+            <small>AES / RSA / SHA</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="vault">
+            <div class="node-icon">⚿</div>
+            <h4>Key Vault</h4>
+            <small>Fernet Envelope</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="db">
+            <div class="node-icon">🗄️</div>
+            <h4>SQLite Storage</h4>
+            <small>framework.sqlite3</small>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-node" data-node="audit">
+            <div class="node-icon">≡</div>
+            <h4>Audit Log</h4>
+            <small>UUID Traceability</small>
+          </div>
+        </div>
+
+        <div class="card" id="architecture-detail-card">
+          <div class="card-title">
+            <span id="arch-node-title">User Interface (Frontend Layer)</span>
+            <small id="arch-node-badge">Vanilla HTML5/CSS3/JS</small>
+          </div>
+          <div id="arch-node-content" style="font-size:13px; color:var(--text-secondary); line-height:1.7;">
+            Client-side Single Page Application built strictly with standard web APIs. Communicates via JSON REST endpoints, handles Base64 formatting, manages session CSRF tokens, and provides microsecond-accurate telemetry displays.
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PANEL 07: AUDIT LOGS & COMPLIANCE -->
+      <!-- ======================================================== -->
+      <section class="panel" id="audit">
+        <div class="page-intro">
+          <div class="eyebrow">MODULE 07 · GOVERNANCE & COMPLIANCE</div>
+          <h1>Security Audit Trail & Operational Logging</h1>
+          <p>Structured operational logging. Every cryptographic event, key rotation, and verification attempt is stamped with a UUID4 trace ID, user identity, and execution latency.</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+            <div style="display:flex; gap:10px; flex:1; min-width:280px;">
+              <input id="audit-search" placeholder="Search by Action, User, Operation ID, Algorithm...">
+              <select id="audit-status-filter" style="width:140px;">
+                <option value="">All Statuses</option>
+                <option value="SUCCESS">SUCCESS</option>
+                <option value="FAILURE">FAILURE</option>
+              </select>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-secondary btn-sm" id="btn-refresh-audit">Refresh</button>
+              <a href="/api/audit/export" class="btn-primary btn-sm" style="text-decoration:none;">Export CSV</a>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>TIMESTAMP (UTC)</th>
+                  <th>OPERATION ID</th>
+                  <th>USER</th>
+                  <th>ACTION</th>
+                  <th>ALGORITHM</th>
+                  <th>STATUS</th>
+                  <th>LATENCY</th>
+                  <th>DETAILS</th>
+                </tr>
+              </thead>
+              <tbody id="full-audit-table">
+                <tr><td colspan="8">Loading audit logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px;">
+            <span id="audit-pagination-info">Showing 1 to 50</span>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-secondary btn-sm" id="btn-audit-prev">Previous</button>
+              <button class="btn-secondary btn-sm" id="btn-audit-next">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL 1: SWITCH USER / LOGIN MODAL -->
+<!-- ======================================================== -->
+<div class="modal-overlay" id="modal-login">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title">Switch User Role / Authentication</div>
+      <button class="modal-close" onclick="closeModal('modal-login')">✕</button>
+    </div>
+    <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">
+      Select an enterprise persona for the capstone demonstration or enter custom credentials:
+    </p>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:16px;">
+      <button class="btn-secondary btn-sm" onclick="fillLogin('admin', 'Admin@SecVault2026!')">
+        <strong>Admin</strong><br><small>Full Access</small>
+      </button>
+      <button class="btn-secondary btn-sm" onclick="fillLogin('operator', 'Operator@SecVault2026!')">
+        <strong>Operator</strong><br><small>Crypto Ops</small>
+      </button>
+      <button class="btn-secondary btn-sm" onclick="fillLogin('auditor', 'Auditor@SecVault2026!')">
+        <strong>Auditor</strong><br><small>Read-Only</small>
+      </button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input id="login-username" value="admin">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="login-password" value="Admin@SecVault2026!">
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button class="btn-secondary" onclick="closeModal('modal-login')">Cancel</button>
+      <button class="btn-primary" id="btn-do-login">Authenticate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL 2: CONFIRM KEY DELETION MODAL -->
+<!-- ======================================================== -->
+<div class="modal-overlay" id="modal-delete-key">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--red);">⚠️ Confirm Key Deletion</div>
+      <button class="modal-close" onclick="closeModal('modal-delete-key')">✕</button>
+    </div>
+    <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px; line-height:1.6;">
+      Are you sure you want to permanently delete <strong id="delete-key-name">this key</strong>?
+      <br><br>
+      <span style="color:var(--red);">CAUTION:</span> Deleting this key will render any previously encrypted data permanently unrecoverable. For active production datasets, consider <strong>rotating</strong> the key instead.
+    </p>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button class="btn-secondary" onclick="closeModal('modal-delete-key')">Cancel</button>
+      <button class="btn-danger" id="btn-confirm-delete-key">Permanently Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL 3: PUBLIC KEY PEM EXPORT MODAL -->
+<!-- ======================================================== -->
+<div class="modal-overlay" id="modal-export-pem">
+  <div class="modal-card" style="max-width:650px;">
+    <div class="modal-header">
+      <div class="modal-title">Export Public Key (PEM)</div>
+      <button class="modal-close" onclick="closeModal('modal-export-pem')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">SHA-256 Fingerprint</label>
+      <input id="export-pem-fingerprint" class="mono" readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label">SubjectPublicKeyInfo (PEM)</label>
+      <textarea id="export-pem-text" class="mono" style="min-height:180px;" readonly></textarea>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button class="btn-secondary" onclick="closeModal('modal-export-pem')">Close</button>
+      <button class="btn-primary" id="btn-copy-pem">Copy PEM</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

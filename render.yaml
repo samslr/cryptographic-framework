@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cybervault
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: APP_MASTER_KEY
+        generateValue: true
