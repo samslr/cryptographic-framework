@@ -8,5 +8,3 @@ services:
     envVars:
       - key: FLASK_SECRET_KEY
         generateValue: true
-      - key: APP_MASTER_KEY
-        generateValue: true
